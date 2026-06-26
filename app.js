@@ -39,6 +39,6 @@ app.listen(PORT, () => {
     console.log(`App is running on port ${PORT}`);
 });
 
-app.get("/", (req , res) => {
-    res.send('Welcome to our users management app.');
-})
+// app.get("/", (req , res) => {
+//     res.send('Welcome to our users management app.');
+// })
