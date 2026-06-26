@@ -12,10 +12,13 @@ const userRoutes = require("./routes/users");
 const http = require('http');
 
 // מאזינים לפורט לוקאלי מסויים 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 //  מאתחל
 const app = express();
+
+connectDB();
+
 
 // השרת שלנו יכול לפרסר מידע בצורת json
 app.use(express.json());
@@ -26,11 +29,9 @@ app.use(cors());
 //     origin: "http://127.0.0.1:5501"
 // }));
 
-connectDB();
 
-app.get("/", (req , res) => {
-    res.send('Welcome to our users management app.');
-})
+
+app.use(express.static('public'));
 
 app.use("/api/users", userRoutes);
 
@@ -38,3 +39,6 @@ app.listen(PORT, () => {
     console.log(`App is running on port ${PORT}`);
 });
 
+app.get("/", (req , res) => {
+    res.send('Welcome to our users management app.');
+})
