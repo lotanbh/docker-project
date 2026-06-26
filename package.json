@@ -1,0 +1,20 @@
+{
+  "name": "users-management",
+  "version": "1.0.0",
+  "description": "Node Server",
+  "type": "commonjs",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js",
+    "loadusers": "node load-users.js"
+  },
+  "license": "ISC",
+  "author": "Lotan Ben Hamou",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "mongoose": "^9.6.3",
+    "nodemon": "^3.1.14"
+  }
+}

@@ -1,0 +1,32 @@
+@baseUrl = http://localhost:3000
+
+###
+
+GET {{baseUrl}}/
+
+
+###
+
+GET {{baseUrl}}/api/users
+
+
+###
+
+GET {{baseUrl}}/api/users/6a25bae1359dc6ba5b29f2cb
+
+
+
+###
+
+POST {{baseUrl}}/api/users
+Content-Type: application/json
+
+{
+    "name" : "Kim Kardi",
+    "email" : "Kim Kardi@example.com",
+    "age" : "40"
+}
+
+###
+
+DELETE {{baseUrl}}/api/users/6a248f61ca362184c4686e95
