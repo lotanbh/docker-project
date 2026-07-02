@@ -1,5 +1,5 @@
 // const API_URL = "http://localhost:3000/api/users";
-const API_URL = "api/users";
+const API_URL = "/api/users";
 
 let editingUserId = null;   
 
@@ -128,7 +128,7 @@ function startEditUser(id, name, email, age) {
     if (submitBtn) submitBtn.innerText = "Update User";
 }
 
-addUserForm.addEventListener('submit', handleFormSubmit);
+// addUserForm.addEventListener('submit', handleFormSubmit);
 
 document.addEventListener('DOMContentLoaded', () => {
     const formElement = document.getElementById('addUserForm');
