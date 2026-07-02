@@ -1,4 +1,5 @@
-const API_URL = "http://localhost:3000/api/users";
+// const API_URL = "http://localhost:3000/api/users";
+const API_URL = "api/users";
 
 let editingUserId = null;   
 

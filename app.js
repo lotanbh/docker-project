@@ -37,9 +37,11 @@ app.use(
             if (!origin || allowedOrigins.includes(origin)) {
              callback(null, true);
             } else {
-             callback(new Error('Not allowed by CORS policies'));
+                console.log(`Blocked origin by CORS: ${origin}`);
+                callback(new Error('Not allowed by CORS policies'));
             }
-        }
+        },
+        credentials: true, // מאפשר שליחת קובצי cookie
     })
 );
 
