@@ -45,6 +45,7 @@ app.use(
     })
 );
 
+// בדיקת SECRET KEY
 if (!process.env.JWT_SECRET) {
     console.error('JWT_SECRET is not set in the environment variables.');
     process.exit(1); // Exit the application with an error code
@@ -55,20 +56,44 @@ if (!process.env.JWT_SECRET) {
 //     origin: "http://127.0.0.1:5501"
 // }));
 
-app.get("/health", (req , res) => {
-    const dbStatus = ["connected", "disconnected", "connecting", "disconnecting"];
-    const dbConnected = mongoose.connection.readyState === 1;
+// בדיקת בריאות השרת והחיבור למסד הנתונים
+// app.get("/health", (req , res) => {
+//     const dbStatus = ["connected", "disconnected", "connecting", "disconnecting"];
+//     const dbConnected = mongoose.connection.readyState === 1;
+    
+
+//     res.status(dbConnected ? 200 : 503).json({
+//          status: dbConnected ? "OK" : "Error",
+//          db: dbStatus[mongoose.connection.readyState],
+//          runtime: `${Math.floor(process.uptime())} seconds`,
+//          environment: process.env.NODE_ENV || "development",
+//          timestamp: new Date().toISOString()
+//         });
+// });
+
+app.get("/health", async (req, res) => {
+    let dbConnected = false;
+    try {
+        // שולח פקודת פינג קטנה למונגו. אם החיבור חי - זה יצליח בשבריר שנייה
+        if (mongoose.connection.db) {
+            await mongoose.connection.db.admin().ping();
+            dbConnected = true;
+        }
+    } catch (err) {
+        dbConnected = false;
+    }
+
+    console.log(`Health check: DB status is ${dbConnected ? 'connected' : 'disconnected'}`);
 
     res.status(dbConnected ? 200 : 503).json({
-         status: dbConnected ? "OK" : "Error",
-         db: dbStatus[mongoose.connection.readyState],
-         runtime: `${Math.floor(process.uptime())} seconds`,
-         environment: process.env.NODE_ENV || "development",
-         timestamp: new Date().toISOString()
-        });
+        status: dbConnected ? "OK" : "Error",
+        runtime: `${Math.floor(process.uptime())} seconds`,
+        timestamp: new Date().toISOString()
+    });
 });
 
 
+// בודק אם התיקיה public קיימת, אם כן מאפשר גישה לקבצים סטטיים מתוכה
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use("/api/users", userRoutes);
