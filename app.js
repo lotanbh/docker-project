@@ -17,6 +17,7 @@ const http = require('http');
 const PORT = process.env.PORT || 3000;
 
 const allowedOrigins = [
+    'http://localhost',
     'http://localhost:3000',
     'http://127.0.0.1:5500',
     process.env.RENDER_EXTERNAL_URL
@@ -25,6 +26,7 @@ const allowedOrigins = [
 //  מאתחל
 const app = express();
 
+app.set('trust proxy', true); // מאפשר קבלת כתובת IP אמיתית כאשר האפליקציה רצה מאחורי פרוקסי (למשל Nginx)
 connectDB();
 
 
@@ -74,7 +76,7 @@ if (!process.env.JWT_SECRET) {
 app.get("/health", async (req, res) => {
     let dbConnected = false;
     try {
-        // שולח פקודת פינג קטנה למונגו. אם החיבור חי - זה יצליח בשבריר שנייה
+        // שולח פקודת פינג  למונגו. אם החיבור חי - זה יצליח מיד 
         if (mongoose.connection.db) {
             await mongoose.connection.db.admin().ping();
             dbConnected = true;
