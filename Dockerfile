@@ -1,5 +1,5 @@
 # this command starts from image that already node js installed in version 20;
-FROM node:20-alpine AS builder
+FROM node:20.18-alpine AS builder
 
 # sets  /app as the working directory inside the container
 WORKDIR /app
@@ -14,8 +14,11 @@ RUN npm install
 COPY . .
 
 # build the project
-FROM node:20-alpine
+FROM node:20.18-alpine
 WORKDIR /app
+
+# update and upgrade the Alpine Linux packages to the latest version
+RUN apk update && apk upgrade --no-cache
 
 # copy the built project from the builder stage
 COPY --from=builder /app .
